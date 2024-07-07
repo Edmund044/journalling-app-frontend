@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import config from '../config';
@@ -12,7 +12,7 @@ const AddEntryScreen = ({ navigation }) => {
   const handleAddEntry = async () => {
     try {
       const token = await AsyncStorage.getItem('token');
-      await axios.post(`${config.API_URL}/entries`, { title, content, category }, {
+      await axios.post(`${config.API_URL}/journal/entries`, { title, content, category }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       navigation.goBack();

@@ -12,6 +12,8 @@ import EntriesScreen from './screens/EntriesScreen';
 import EntryDetailScreen from './screens/EntryDetailScreen';
 import AddEntryScreen from './screens/AddEntryScreen';
 import EditEntryScreen from './screens/EditEntryScreen';
+import EditProfileScreen from './screens/EditProfileScreen';
+import SummaryScreen from './screens/SummaryScreen';
 
 const Stack = createStackNavigator();
 const Tab = createBottomTabNavigator();
@@ -20,8 +22,8 @@ function MainTabs() {
   return (
     <Tab.Navigator>
       <Tab.Screen name="Entries" component={EntriesScreen} />
+      <Tab.Screen name="Summary" component={SummaryScreen} />
       <Tab.Screen name="Profile" component={ProfileScreen} />
-      <Tab.Screen name="Add Entry" component={AddEntryScreen} />
     </Tab.Navigator>
   );
 }
@@ -37,6 +39,8 @@ export default function App() {
       <Stack.Screen name="EntryDetail" component={EntryDetailScreen} />
       <Stack.Screen name="AddEntry" component={AddEntryScreen} />
       <Stack.Screen name="EditEntry" component={EditEntryScreen} />
+      <Stack.Screen name="EditProfile" component={EditProfileScreen} />
+      <Stack.Screen name="Summary" component={SummaryScreen} />
       <Stack.Screen name="Main" component={MainTabs} options={{ headerShown: false }} />
     </Stack.Navigator>
   </NavigationContainer>

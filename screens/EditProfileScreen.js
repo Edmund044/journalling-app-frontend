@@ -4,59 +4,57 @@ import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import config from '../config';
 
-const EditEntryScreen = ({ route, navigation }) => {
-  const { entryId } = route.params;
-  const [title, setTitle] = useState('');
-  const [content, setContent] = useState('');
-  const [category, setCategory] = useState('');
+const EditProfileScreen = ({ route, navigation }) => {
+  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
 
   useEffect(() => {
-    const fetchEntry = async () => {
+    const fetchprofile = async () => {
       const token = await AsyncStorage.getItem('token');
-      const response = await axios.get(`${config.API_URL}/journal/entries/${entryId}`, {
+      const response = await axios.get(`${config.API_URL}/journal/profile`, {
         headers: { Authorization: `Bearer ${token}` }
       });
-      const entry = response.data;
-      setTitle(entry.title);
-      setContent(entry.content);
-      setCategory(entry.category);
+      const profile = response.data;
+      setEmail(profile.email);
+      setUsername(profile.username);
     };
-    fetchEntry();
+    fetchprofile();
   }, []);
 
-  const handleEditEntry = async () => {
+  const handleEditprofile = async () => {
     try {
       const token = await AsyncStorage.getItem('token');
-      await axios.put(`http://localhost:5000/journal/entries/${entryId}`, { title, content, category }, {
+      await axios.put(`${config.API_URL}/journal/profile`, { email, username, password }, {
         headers: { Authorization: `Bearer ${token}` }
       });
       navigation.goBack();
     } catch (error) {
-      Alert.alert('Error', 'Failed to edit entry');
+      Alert.alert('Error', 'Failed to edit profile');
     }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.label}>Title</Text>
+      <Text style={styles.label}>Email</Text>
       <TextInput
         style={styles.input}
-        value={title}
-        onChangeText={setTitle}
+        value={email}
+        onChangeText={setEmail}
       />
-      <Text style={styles.label}>Content</Text>
+      <Text style={styles.label}>Username</Text>
       <TextInput
         style={styles.input}
-        value={content}
-        onChangeText={setContent}
+        value={username}
+        onChangeText={setUsername}
       />
-      <Text style={styles.label}>Category</Text>
       <TextInput
         style={styles.input}
-        value={category}
-        onChangeText={setCategory}
+        value={password}
+        onChangeText={setPassword}
+        secureTextEntry
       />
-      <Button title="Save Changes" onPress={handleEditEntry} />
+      <Button title="Save Changes" onPress={handleEditprofile} />
     </View>
   );
 };
@@ -79,4 +77,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default EditEntryScreen;
+export default EditProfileScreen;

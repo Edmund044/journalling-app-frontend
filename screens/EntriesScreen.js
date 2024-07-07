@@ -1,22 +1,33 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, FlatList, Button, StyleSheet } from 'react-native';
+import { View, Text, FlatList, Button, StyleSheet, ActivityIndicator } from 'react-native';
 import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import config from '../config';
 
 const EntriesScreen = ({ navigation }) => {
   const [entries, setEntries] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const fetchEntries = async () => {
+      setLoading(true);
       const token = await AsyncStorage.getItem('token');
-      const response = await axios.get(`${config.API_URL}/entries`, {
+      const response = await axios.get(`${config.API_URL}/journal/entries`, {
         headers: { Authorization: `Bearer ${token}` }
       });
       setEntries(response.data);
+      setLoading(false);
     };
     fetchEntries();
   }, []);
+
+  if (loading) {
+    return (
+      <View style={styles.container}>
+        <ActivityIndicator size="large" color="#0000ff" />
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
